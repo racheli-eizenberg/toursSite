@@ -1,0 +1,66 @@
+<!-- index.html -->
+<!doctype html>
+<html>
+<head>
+    <title>new tour</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <!-- load bootstrap via CDN -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+    "></script> <!-- load jquery via CDN -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="/js/tour_utils.js">
+    </script> <!-- load our javascript file -->
+</head>
+
+<body>
+    <div class="col-sm-6 col-sm-offset-3">
+
+        <h1>create tour</h1>
+
+        <!-- OUR FORM -->
+        <form id="tour_form" name="tour_form" method="POST">
+            <!-- ID -->
+            <div id="name-group" class="form-group">
+                <label for="id">Tour ID</label>
+                <input type="text" class="form-control" name="id_field" id="id_field" placeholder="write id here"
+                    required>
+                <!-- errors will go here -->
+            </div>
+            <!-- NAME -->
+            <div id="name-group" class="form-group">
+                <label for="start_date">Start Date</label>
+                <input type="date" class="form-control" name="start_date" placeholder="enter the date the tour begins"
+                    required>
+                <!-- errors will go here -->
+            </div>
+`
+            
+
+            <!-- duration -->
+            <div id="name-group" class="form-group">
+                <label for="duration">Trip Duration</label>
+                <input type="number" class="form-control" name="duration" id="duration"
+                    placeholder="write duration in days here" required>
+                <!-- errors will go here -->
+            </div>
+
+
+            <!-- cost -->
+            <div id="name-group" class="form-group">
+                <label for="cost">cost ILS</label>
+                <input type="number" class="form-control" name="cost" id="cost"
+                    placeholder="write cost here" class="input-only-numbers demostration" required>
+                <!-- errors will go here -->
+            </div>
+
+            
+
+
+            <button type="submit" class="btn btn-success">Submit <span class="fa fa-arrow-right"></span></button>
+
+        </form>
+
+    </div>
+</body>
+
+</html>
