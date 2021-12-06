@@ -1,5 +1,6 @@
 const fs = require('fs');
-
+var validateDate = require("validate-date");
+var isPositiveInteger = require('is-positive-integer')
 
 // variables
 const dataPath = './server/data/tours.json';
@@ -40,8 +41,6 @@ module.exports = {
 
     //READ
     get_tours: function (req, res) {
-        console.log(req)
-        console.log(res)
         fs.readFile(dataPath, 'utf8', (err, data) => {
             if (err) {
                 console.log(err);
@@ -75,9 +74,25 @@ module.exports = {
     create_tour: function (req, res) {
 
         readFile(data => {
-
             // create a tour
-            if (!req.body.id) return res.status(500).send("id required");
+            if(!req.body.id||!req.body.date||!req.body.cost||!req.body.duration) 
+                  {res.status(400).send("all fields are required");return;} 
+            if(data[req.body.id])//if id exists
+            {
+               res.status(400).send("id already exists");return;
+            }   
+            if (!(validateDate(req.body.date,responseType="boolean",dateFormat="dd/mm/yyyy"))) {
+                res.status(400).send("required date format");return;
+            }
+            if (!isPositiveInteger(parseFloat(req.body.duration))) {
+                res.status(400).send("duration must be positive integer");return;
+            }
+            if (!isPositiveInteger(parseFloat(req.body.id))) {
+                res.status(400).send("id must be positive integer");return;
+            }
+            if (req.body.cost<0) {
+                res.status(400).send("cost must be positive number");return;
+            }
             data[req.body.id] = req.body;
 
             writeFile(JSON.stringify(data, null, 2), () => {
@@ -103,7 +118,7 @@ module.exports = {
                 data[tourId] = output;
             }
 
-            else res.sendStatus(400);
+            else {res.sendStatus(400);return;}
 
 
             writeFile(JSON.stringify(data, null, 2), () => {
@@ -130,7 +145,7 @@ module.exports = {
                 else       
                     data[tourId]["sites"].splice(req.body.index,0,req.body.siteDetails)
             }
-            else res.status(400).send("tour doesn't exist");
+            else {res.status(400).send("tour doesn't exist");return;};
 
             writeFile(JSON.stringify(data, null, 2), () => {
                 res.status(200).send(`tours id:${tourId} updated`);
@@ -167,7 +182,7 @@ module.exports = {
                     }   
                 }
             }
-            else res.status(400).send("tour doesn't exist");
+            else {res.status(400).send("tour doesn't exist");return;}
 
             writeFile(JSON.stringify(data, null, 2), () => {
                 res.status(200).send(`tours id:${tourId} updated with coupon ${codeCoupon}  `);
@@ -185,7 +200,8 @@ module.exports = {
             // add the new tour
             const tourId = req.params["id"];
             if(!data[tourId])
-                res.status(400).send("not found");
+                {res.status(400).send("not found");return;}
+                
             else
                 delete data[tourId];
 
@@ -208,7 +224,7 @@ module.exports = {
                 delete data[tourId][`cupon${codeCoupon}`];
             }
             else
-                res.status(400) .send("not found");
+                {res.status(400) .send("not found");return;}
 
             writeFile(JSON.stringify(data, null, 2), () => {
                 res.status(200).send(`cupon :${codeCoupon} removed from tour:${tourId} `);

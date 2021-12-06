@@ -20,6 +20,8 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "input-only-numbers": "^1.0.6",
-    "is-integer": "^1.0.7"
+    "is-integer": "^1.0.7",
+    "is-positive-integer": "^1.1.1",
+    "validate-date": "^2.0.0"
   }
 }
