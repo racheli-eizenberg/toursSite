@@ -16,12 +16,17 @@
     "kit"
   ],
   "dependencies": {
+    "@ag-grid-community/all-modules": "^26.2.0",
+    "ag-grid-community": "^26.2.0",
+    "ag-grid-enterprise": "^26.2.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "input-only-numbers": "^1.0.6",
     "is-integer": "^1.0.7",
     "is-positive-integer": "^1.1.1",
+    "jquery": "^3.6.0",
+    "moment": "^2.29.1",
     "validate-date": "^2.0.0"
   }
 }

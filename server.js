@@ -12,6 +12,8 @@ app.use('/main', express.static(path.join(__dirname, 'client/html/index.html')))
 app.use('/list_users', express.static(path.join(__dirname, 'client/html/index.html')));
 app.use('/add_user', express.static(path.join(__dirname, 'client/html/add_user_form.html')));
 app.use('/create_tour', express.static(path.join(__dirname, 'client/html/create_tour_form.html')));
+app.use('/toursList', express.static(path.join(__dirname, 'client/html/toursTable.html')));
+
 
 app.use('/js', express.static(path.join(__dirname, 'client/js')));
 

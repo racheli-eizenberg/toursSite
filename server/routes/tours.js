@@ -33,10 +33,28 @@ function jsonConcat(o1, o2) {
     }
     return o1;
 }
-// function addToSiteList(siteDetail, existingSite) {
-//     console.log(siteDetail, existingSite);
-//     //let list = new LinkedList(siteDetail)
-// }
+function validate(res,req)
+{
+    if (req.body.date&&!(validateDate(req.body.date,responseType="boolean"))) {
+        res.status(400).send("required date format");
+        return false;
+    }
+    if (req.body.duration&&!isPositiveInteger(parseFloat(req.body.duration))) {
+        res.status(400).send("duration must be positive integer");
+        return false;
+    }
+    if (req.body.id&&!isPositiveInteger(parseFloat(req.body.id))) {
+        res.status(400).send("id must be positive integer");
+        return false;
+    }
+    if (req.body.cost&&req.body.cost<=0) {
+        res.status(400).send("cost must be positive number");
+        return false;
+    }
+    
+    return true;
+}
+
 module.exports = {
 
     //READ
@@ -74,25 +92,17 @@ module.exports = {
     create_tour: function (req, res) {
 
         readFile(data => {
-            // create a tour
-            if(!req.body.id||!req.body.date||!req.body.cost||!req.body.duration) 
-                  {res.status(400).send("all fields are required");return;} 
+           
             if(data[req.body.id])//if id exists
             {
-               res.status(400).send("id already exists");return;
+               res.status(400).send("id already exists");
+               return;
             }   
-            if (!(validateDate(req.body.date,responseType="boolean",dateFormat="dd/mm/yyyy"))) {
-                res.status(400).send("required date format");return;
-            }
-            if (!isPositiveInteger(parseFloat(req.body.duration))) {
-                res.status(400).send("duration must be positive integer");return;
-            }
-            if (!isPositiveInteger(parseFloat(req.body.id))) {
-                res.status(400).send("id must be positive integer");return;
-            }
-            if (req.body.cost<0) {
-                res.status(400).send("cost must be positive number");return;
-            }
+             // create a tour
+             if(!req.body.id||!req.body.date||!req.body.cost||!req.body.duration) 
+             {res.status(400).send("all fields are required");return;} 
+            if(!validate(res,req))
+                return;
             data[req.body.id] = req.body;
 
             writeFile(JSON.stringify(data, null, 2), () => {
@@ -108,13 +118,19 @@ module.exports = {
 
             // add the new tour
             const tourId = req.params["id"];
+            
+            if(req.body.id)
+            {
+                res.status(400).send("can't update id");
+                return;
+            }
+            
+            if(!validate(res,req))
+                return;
             if (data[tourId]) {
                 var output = {};
                 output = jsonConcat(output, data[tourId]);
                 output = jsonConcat(output, req.body);
-
-
-                //  console.log("output",output);
                 data[tourId] = output;
             }
 
@@ -134,18 +150,27 @@ module.exports = {
             const tourId = req.params["id"];
 
             if (data[tourId])
-            { 
+            {  
+                
                 if(!req.body.index||!req.body.siteDetails||!req.body.siteDetails.siteName||!req.body.siteDetails.countryName ) 
+                { 
                     res.status(400).send("all fields are required");
-                else if(req.body.index<0)
+                    return;
+                }
+                
+                else if(!isPositiveInteger(parseFloat(req.body.index)))
+                {
                     res.status(400).send("invalid index");
+                    return;
+                }
+                    
                 else if (!data[tourId]["sites"])
                         {data[tourId]["sites"]=[];                             
                         data[tourId]["sites"].splice(req.body.index,0,req.body.siteDetails) }
                 else       
                     data[tourId]["sites"].splice(req.body.index,0,req.body.siteDetails)
             }
-            else {res.status(400).send("tour doesn't exist");return;};
+            else {res.status(400).send("tour id doesn't exist");return;};
 
             writeFile(JSON.stringify(data, null, 2), () => {
                 res.status(200).send(`tours id:${tourId} updated`);
@@ -167,16 +192,45 @@ module.exports = {
                 startDate=req.body.startDate,
                 expiryDate=req.body.expiryDate,
                 discountPercentage=req.body.discountPercentage;
-                if(!codeCoupon) 
+                if(req.body.id) {
+                    res.status(400).send("can't update id");
+                    return;
+                }
+                
+                if(startDate&&startDate>expiryDate&&expiryDate) {
+                    res.status(400).send("expiry date can't be before start date");
+                    return;
+                }
+                if (discountPercentage&&isNaN(discountPercentage)||Number(discountPercentage)<0||Number(discountPercentage)>100) {
+                    res.status(400).send("discountPercentage must be valid percentage");
+                    return;
+                }
+                if(data[req.params.id]["date"]<expiryDate) {
+                    res.status(400).send("expiry date can't after the tour begins");
+                    return;
+                }
+                if(!codeCoupon) {
                     res.status(400).send("code cupon required");
-                else if (data[tourId][`cupon${codeCoupon}`])//if coupon exists update
+                    return;
+                }
+                if (startDate&&!(validateDate(startDate,responseType="boolean"))||expiryDate&&!(validateDate(expiryDate,responseType="boolean")))
+                {
+                    res.status(400).send("date must be in date format");
+                    return; 
+                }
+                if (data[tourId][`cupon${codeCoupon}`])//if coupon exists update
                 {
                     data[tourId][`cupon${codeCoupon}`]= jsonConcat(data[tourId][`cupon${codeCoupon}`], req.body);
+                   
                 }
                 else//create a new coupon
                 {
                     if(!startDate||!expiryDate||!discountPercentage ) //for creation all fields are required
+                    {
                         res.status(400).send("all fields are required");
+                        return;
+                    }
+                       
                     else{
                         data[tourId][`cupon${codeCoupon}`]={"codeCoupon":codeCoupon,"startDate":startDate,"expiryDate":expiryDate,"discountPercentage":discountPercentage} 
                     }   

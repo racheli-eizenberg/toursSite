@@ -1,14 +1,7 @@
 const express = require('express'),
-    userRoutes = require('./users'),
     tourRoutes = require('./tours');
 
 var router = express.Router();
-
-
-router.get('/users', userRoutes.read_users);
-router.post('/users', userRoutes.create_user);
-router.put('/users/:id', userRoutes.update_user);
-router.delete('/users/:id', userRoutes.delete_user);
 
 router.get('/tours', tourRoutes.get_tours);
 router.post('/tours', tourRoutes.create_tour);
