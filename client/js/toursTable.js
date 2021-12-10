@@ -38,9 +38,7 @@ const updateRendererComponent = (params) => {
     let update_form = document.querySelector(".updateTour")
     modal_content.appendChild(update_form);
     let closeBtn = document.querySelector(".close-btn")
-    let date=document.getElementById("start_date");
-    let duration=document.getElementById("duration");
-    let cost=document.getElementById('cost');
+    
     
       modal.style.display = "block"
     let updateBtn=document.getElementById("updateBtn");
@@ -48,10 +46,8 @@ const updateRendererComponent = (params) => {
    
    
     updateBtn.onclick=function(){
-      alert("hi",date)
-
+      
      
-  
 
       $.ajax({
         type: "PUT",
@@ -59,7 +55,7 @@ const updateRendererComponent = (params) => {
         contentType: "application/json",
         dataType: "json",
         data:JSON.stringify({
-          date: "10/02/8222",
+          date:  $("#start_date").val().split('-').reverse().join('-'),
           cost: $("#cost").val(),
           duration: $("#duration").val(),
        
@@ -187,7 +183,17 @@ var gridOptions = {
 };
 
 // setup the grid after the page has finished loading
-document.addEventListener('DOMContentLoaded', function () {
+$(document).ready(() => {
+  var createTourBtn1= document.querySelector("#createTourBtn1");
+  var createTourBtn2= document.querySelector("#createTourBtn2");
+  createTourBtn1.onclick=function (params) {
+    window.location.href="/create_tour"
+   }
+  createTourBtn2.onclick=function (params) {
+    window.location.href="/create_tour"
+  }
+
+  
   var gridDiv = document.querySelector('#myGrid');
   new agGrid.Grid(gridDiv, gridOptions);
 

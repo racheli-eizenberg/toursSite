@@ -18,61 +18,12 @@
 	</head>
 	<body>
         
-            <div id="myGrid" style="height: 100%;" class="ag-theme-alpine"></div>
-            
-            <div class="modal">
-                <div class="modal-content">   
-                    <span class="close-btn">&times;</span>
-                    
-                </div>
-            </div>
-           <div class="updateTour">
-            <div class="col-sm-6 col-sm-offset-3">
-
-                <h3>Update Tour</h3>
-        
-                <!-- OUR FORM -->
-                <form id="tour_form" name="tour_form" method="PUT">
-                    <!-- NAME -->
-                    <div id="name-group" class="form-group">
-                        <label for="start_date">Start Date</label>
-                        <input type="date" class="form-control" name="start_date" id="start_date" placeholder="enter the date the tour begins"
-                            required>
-                        <!-- errors will go here -->
-                    </div>
-               
-        
-                    <!-- duration -->
-                    <div id="name-group" class="form-group">
-                        <label for="duration">Trip Duration</label>
-                        <input type="number" class="form-control" name="duration" id="duration"
-                            placeholder="write duration in days here" required>
-                        <!-- errors will go here -->
-                    </div>
+            <button id="createTourBtn1">Create Tour</button>
+                <div id="myGrid" style="height: 100%;" class="ag-theme-alpine"></div>
+            <button id="createTourBtn2">Create Tour</button>
+           
         
         
-                    <!-- cost -->
-                    <div id="name-group" class="form-group">
-                        <label for="cost">cost ILS</label>
-                        <input type="number" class="form-control" name="cost" id="cost"
-                            placeholder="write cost here" class="input-only-numbers demostration" required>
-                        <!-- errors will go here -->
-                    </div>
-        
-                    
-        
-        
-                    <button
-                        id="updateBtn"
-                        type="submit" 
-                        class="btn btn-success">
-                        Update <span class="fa fa-arrow-right"></span></button>
-        
-                </form>
-        
-            </div>
-           </div>
-    
 		<script>var __basePath = './';</script>
 		<script src="https://unpkg.com/@ag-grid-community/all-modules@26.2.0/dist/ag-grid-community.min.js">
 		</script>
