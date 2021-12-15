@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>JavaScript example</title>
+		<meta charSet="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>new tour</title>
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/toursTable.css">
+        <!-- load bootstrap via CDN -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+        "></script> <!-- load jquery via CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+        
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+        <script src="../js/tour_utils.js"></script>
+        <script src="../js/toursTable.js"></script>
+
+         <!-- load our javascript file -->
+		
+	</head>
+	<body>
+<div class="modal">
+    <div class="modal-content">   
+        <h3>Update Tour</h3>
+        <form id='update_tour_form' name='update_tour_form' method='PUT'>
+       <div id='name-group' class='form-group'>
+        <label for='start_date'>Start Date</label>
+        <input type='date'class='form-control' name='start_date' id='start_date'placeholder='"+"enter the date the tour begins"+"'>
+        </div>
+        <div id='name-group' class='form-group'>
+        <label for='duration'>Trip Duration</label>
+        <input type='number' class='form-control 'name='duration' id='duration'placeholder='"+"write duration in days here"+"'>
+        </div>"
+        str+="<div id='name-group' class='form-group'>"
+        str+="<label for='cost'>cost ILS</label>"
+        str+="<input type='number' class='form-control' name='cost' id='cost'placeholder='write cost here'class='input-only-numbers demostration '>"
+        str+="</div>"
+        str+="<div hidden id='tourId'>"+id+"</div>";
+        str+="<button id='updateBtn'type='submit ' class=' btn btn-success'>Update <span class='fa fa-arrow-right'></span></button>"
+        str+="</form> ";
+        <span class="close-btn">&times;</span>
+        
+    </div>
+</div>
+<div class="updateTour">
+<div class="col-sm-6 col-sm-offset-3">
+
+    <h3>Update Tour</h3>
+
+    <!-- OUR FORM -->
+    <form id="update_tour_form" name="update_tour_form" method="PUT">
+        <!-- NAME -->
+        <div id="name-group" class="form-group">
+            <label for="start_date">Start Date</label>
+            <input type="date" class="form-control" name="start_date" id="start_date" placeholder="enter the date the tour begins"
+                required>
+            <!-- errors will go here -->
+        </div>
+    
+
+        <!-- duration -->
+        <div id="name-group" class="form-group">
+            <label for="duration">Trip Duration</label>
+            <input type="number" class="form-control" name="duration" id="duration"
+                placeholder="write duration in days here" required>
+            <!-- errors will go here -->
+        </div>
+
+
+        <!-- cost -->
+        <div id="name-group" class="form-group">
+            <label for="cost">cost ILS</label>
+            <input type="number" class="form-control" name="cost" id="cost"
+                placeholder="write cost here" class="input-only-numbers demostration" required>
+            <!-- errors will go here -->
+        </div>
+
+        
+
+
+        <button
+            id="updateBtn"
+            type="submit" 
+            class="btn btn-success">
+            Update <span class="fa fa-arrow-right"></span></button>
+
+    </form>
+
+</div>
+</div>
+	</body>
+</html>
