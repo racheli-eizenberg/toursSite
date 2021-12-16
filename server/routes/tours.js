@@ -214,8 +214,8 @@ module.exports = {
                     return;
                 }
                 if(data[req.params.id]["date"]<expiryDate) {
-                    res.status(400).send("expiry date can't after the tour begins");
-                    return;
+                    return res.status(400).send("expiry date can't be after the tour begins");
+                
                 }
                 if(codeCoupon===null) {
                     res.status(400).send("code cupon required");

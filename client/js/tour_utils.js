@@ -1,6 +1,6 @@
 
 $(document).ready(function () {
-
+var data=""
   $("form[name='create_tour_form']").validate({
    
     // Specify validation rules
@@ -281,40 +281,43 @@ $.validator.addMethod('greaterThan', function(value, element) {
 
   // process the form
   $('#add_coupon_form').submit(function (event) {
-  
+    
     if (!$("#add_coupon_form").valid())
     {
       return;
     }
      
-
-  
-    // process the form
+ 
     $.ajax({
-      type: 'PUT',
-      url: 'tours/addCoupun'+'/'+localStorage.getItem('tourId'),
-      contentType: 'application/json',
-      data: JSON.stringify({
+     
+        type: 'PUT',
+        url: 'tours/addCoupun'+'/'+localStorage.getItem('tourId'),
+        contentType: 'application/json',
+        data: JSON.stringify({
+         
+            "codeCoupon": $("#codeCoupon").val(),
+            "startDate": $("#startDate").val(),
+            "expiryDate": $("#expiryDate").val(),
+            "discountPercentage": $("#discountPercentage").val()
+         
+        }),
+        processData: false,
+        encode: true,
+        success: function (data, textStatus, jQxhr) {
        
-          "codeCoupon": $("#codeCoupon").val(),
-          "startDate": $("#startDate").val(),
-          "expiryDate": $("#expiryDate").val(),
-          "discountPercentage": $("#discountPercentage").val()
-       
-      }),
-      processData: false,
-      encode: true,
-      success: function (data, textStatus, jQxhr) {
+          window.location.reload();
+        },
+          
+        error: function (jqXhr, textStatus, errorThrown) {
+         alert(jqXhr.responseText)
+          console.clear();
+          // console.log(errorThrown);
+        },
         
-        window.location.reload();
+      }); 
+        
 
-      },
-      error: function (jqXhr, textStatus, errorThrown) {
-        console.log(errorThrown);
-      }
-    });
 
-    // stop the form from submitting the normal way and refreshing the page
     event.preventDefault();
   });
 });

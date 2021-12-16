@@ -71,15 +71,21 @@
       },
       "cupon12": {
         "codeCoupon": "12",
-        "startDate": "1998-12-14",
-        "expiryDate": "1998-12-17",
-        "discountPercentage": "5"
+        "startDate": "1992-01-01",
+        "expiryDate": "1993-01-02",
+        "discountPercentage": "59"
       },
       "cupon78961": {
         "codeCoupon": "78961",
         "startDate": "2021-12-16",
         "expiryDate": "2021-12-31",
         "discountPercentage": "78"
+      },
+      "cupon89898": {
+        "codeCoupon": "89898",
+        "startDate": "1993-12-08",
+        "expiryDate": "1994-11-05",
+        "discountPercentage": "54"
       }
     }
   },
