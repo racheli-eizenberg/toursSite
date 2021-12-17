@@ -1,34 +1,47 @@
 
 $(document).ready(function () {
+
 var data=""
-  $("form[name='create_tour_form']").validate({
+jQuery.validator.addMethod("idExist", function(value, element) {
+  alert(global_id.find(element => element=== $('#id_field'))!=='undefined')
+  return global_id.find(element => element=== $('#id_field'))!=='undefined';
+}, "tour id exist, please enter a differnet id"); 
+  $("form[name='create_tour_form  ']").validate({
    
     // Specify validation rules
     rules: {
-      "id": {
+      "id_field": {
         required: true,
         digits: true,
-        minlength: 6
+        minlength: 6,
+        idExist:true
         
       },
-      "date": {
+      "start_date": {
         required: true,
+        min: new Date().toISOString().slice(0,10)//??
       },
       "duration": {
+        min:0,//??
         required: true,
         digits: true,
         //isInteger: true,
       },
       "cost": {
+        min:0,//??
         required: true,
         digits: true,
       },
-    },
+    },  
     // Specify validation error messages
     messages: {
-      id: {
+      id_field: {
         digits: "Please enter only digits",
-        minlength: "Your id must be at least 6 digits"
+        minlength: "Your id must be at least 6 digits",
+        idExist:"tour id exist, please enter a differnet id"
+      },
+      start_date:{
+        min: "the min date is today"//??
       },
       duration: {
         digits: "you must enter only digits",
@@ -42,12 +55,13 @@ var data=""
 
   // process the form
   $('#create_tour_form').submit(function (event) {
-    
-    if (!$("#create_tour_form").valid())
-      return;
-
    
 
+
+    if (!$("#create_tour_form").valid())
+      return;
+    ////////////
+  
     // process the form
     $.ajax({
       type: 'POST',
@@ -69,9 +83,11 @@ var data=""
       },
       error: function (jqXhr, textStatus, errorThrown) {
         console.log(errorThrown);
-      }
-    });
-
+      
+   
+    
+  }
+})
     // stop the form from submitting the normal way and refreshing the page
     event.preventDefault();
   });
@@ -87,6 +103,8 @@ var data=""
       
       "date": {
        // required: true,
+       min: new Date().toISOString().slice(0,10)//??
+
       },
       "duration": {
       //  required: true,
@@ -100,10 +118,10 @@ var data=""
     },
     // Specify validation error messages
     messages: {
-      // id: {
+       id: {
       //   digits: "Please enter only digits",
-      //   minlength: "Your id must be at least 6 digits"
-      // },
+        min: "The minimum date is today"
+       },
       duration: {
         digits: "you must enter only positive integer ",
       },
@@ -129,13 +147,15 @@ var data=""
       contentType: 'application/json',
       data: JSON.stringify({
         "date": $("#start_date").val(),
+        // "start_date": $("#id_field").val(), ???????????
         "duration": $("#duration").val(),
         "cost": $("#cost").val(),
       }),
       processData: false,
       encode: true,
       success: function (data, textStatus, jQxhr) {
-        window.location.reload();
+        localStorage.clear();///??
+        window.location.reload();//?? location.href = "/turs";
 
       },
       error: function (jqXhr, textStatus, errorThrown) {
@@ -235,6 +255,7 @@ $.validator.addMethod('greaterThan', function(value, element) {
   return dateTo > dateFrom;
 
 });
+ 
   $("form[name='add_coupon_form']").validate({
    
     // Specify validation rules
@@ -245,10 +266,12 @@ $.validator.addMethod('greaterThan', function(value, element) {
       },
       "startDate": {
         required: true,
+        greaterThan:true
       },
       "expiryDate": {
        required: true,
        // digits: true,
+       check_date:true
       },
       "discountPercentage": {
         required: true,
@@ -270,7 +293,8 @@ $.validator.addMethod('greaterThan', function(value, element) {
         greaterThan:"start date must be before expiry date"
       },
       expiryDate: {
-        required:"field required"
+        required:"expiry date can't be after the tour begins",
+        check_date:"date"
       },
       discountPercentage: {
         required:"field required"
@@ -286,7 +310,7 @@ $.validator.addMethod('greaterThan', function(value, element) {
     {
       return;
     }
-     
+    
  
     $.ajax({
      
@@ -321,3 +345,5 @@ $.validator.addMethod('greaterThan', function(value, element) {
     event.preventDefault();
   });
 });
+
+
